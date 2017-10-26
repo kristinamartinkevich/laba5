@@ -1,0 +1,677 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ConsoleApplication1
+{
+
+
+	//is
+
+
+	//Ключевое слово is оценивает совместимость типов во время выполнения. Оно
+    //определяет, может ли экземпляр объекта или результат выражения быть 
+    //преобразован в указанный тип. Он имеет следующий синтаксис:
+	
+   //expr is type
+    //где expr — это выражение, значением которого является экземпляр 
+    //какого-либо типа, а type — это имя типа, в который должен быть преобразован 
+    //результат expr.Оператор is принимает значение true, если выражение expr отлично от NULL
+    //и объект, являющийся результатом вычисления выражения, может быть преобразован в тип 
+    //type.В противном случае возвращается false.
+	class Class1 { }
+	class Class2 { }
+	class Class3 : Class2 { }
+
+	class IsTest
+	{
+		static void Test(object o)
+		{
+			Class1 a;
+			Class2 b;
+
+			if (o is Class1)
+			{
+				Console.WriteLine("o is Class1");
+				a = (Class1)o;
+				// Do something with "a."
+			}
+			else if (o is Class2)
+			{
+				Console.WriteLine("o is Class2");
+				b = (Class2)o;
+				// Do something with "b."
+			}
+
+			else
+			{
+				Console.WriteLine("o is neither Class1 nor Class2.");
+			}
+		}
+
+
+    //Наследование является одним из фундаментальных атрибутов объектно-ориентированного программирования. 
+    //Оно позволяет определить дочерний класс, который использует (наследует), расширяет 
+    //или изменяет возможности родительского класса. Класс, члены которого наследуются, 
+    //называется базовым классом. Класс, который наследует члены базового класса, называется производным классом.
+    class Rasteniya
+    {
+        const string plant = "Растение";
+        public string bush, flower;
+        public string rose;
+
+
+        public void InfoPW()
+        {
+            Console.WriteLine("1: {0}\n2: {1}\n3: {2}\n4: {3}", plant, bush, flower, rose);
+        }
+    }
+
+    // Объявляем класс, унаследованный от класса Rasteniya
+    class Plants : Rasteniya
+    {
+        public string cactus;
+
+        // Поля класса Rasteniya доступны через конструктор наследуемого класса
+        public Plants(string bush, string flower, string rose, string cactus)
+        {
+            this.bush = bush;
+            this.flower = flower;
+            this.rose = rose;
+            this.cactus = cactus;
+        }
+
+        public void StWrite()
+        {
+            Console.WriteLine("5: " + cactus);
+        }
+    }
+
+
+
+
+    //полиморфизм
+
+
+    public class Shape
+    {
+        // A few example members
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public int Height { get; set; }
+        public int Width { get; set; }
+
+        // Virtual method
+        public virtual void Draw()
+        {
+            Console.WriteLine("Performing base class drawing tasks");
+        }
+    }
+
+    class Circle : Shape
+    {
+        public override void Draw()
+        {
+            // Code to draw a circle...
+            Console.WriteLine("Drawing a circle");
+            base.Draw();
+        }
+    }
+    class Rectangle : Shape
+    {
+        public override void Draw()
+        {
+            // Code to draw a rectangle...
+            Console.WriteLine("Drawing a rectangle");
+            base.Draw();
+        }
+    }
+    class Triangle : Shape
+    {
+        public override void Draw()
+        {
+            // Code to draw a triangle...
+            Console.WriteLine("Drawing a triangle");
+            base.Draw();
+        }
+    }
+
+
+
+
+
+    class Program
+    {
+        static void Main()
+        {
+            Plants obj = new Plants(bush: "куст", flower: "цветок", rose: "роза", cactus: "кактус");
+            obj.InfoPW();
+            obj.StWrite();
+
+            Console.ReadLine();
+
+
+
+
+
+
+            //полиморфизм
+
+            //Полиморфизм часто называется третьей концепцией объектно-ориентированного программирования 
+            //после инкапсуляции и наследования. Полиформизм — это греческое слово, означающее "наличие многих форм".
+            //во-первых, создайте базовый класс, называемый Shape, и производные классы, например Rectangle,
+            //Circle и Triangle. Добавьте в класс Shape виртуальный метод с именем Draw и переопределите
+            //его в каждом производном классе для рисования конкретной фигуры, которую этот класс представляет.
+            //Создайте объект List<Shape> и добавьте в него круг, треугольник и прямоугольник. 
+            //Для обновления поверхности рисования используйте цикл foreach для итерации 
+            //списка и вызова метода Draw на каждом объекте Shape в списке. Хотя каждый объект 
+            //в списке имеет объявленный тип Shape, будет вызываться именно тип времени выполнения
+            //(переопределенная версия метода в каждом производном классе).
+
+
+            // Polymorphism at work #1: a Rectangle, Triangle and Circle
+            // can all be used whereever a Shape is expected. No cast is
+            // required because an implicit conversion exists from a derived 
+            // class to its base class.
+            System.Collections.Generic.List<Shape> shapes = new System.Collections.Generic.List<Shape>();
+            shapes.Add(new Rectangle());
+            shapes.Add(new Triangle());
+            shapes.Add(new Circle());
+
+            // Polymorphism at work #2: the virtual method Draw is
+            // invoked on each of the derived classes, not the base class.
+            foreach (Shape s in shapes)
+            {
+                s.Draw();
+            }
+
+            // Keep the console open in debug mode.
+            Console.WriteLine("Press any key to exit.");
+
+
+
+
+
+
+            //виртуальные методы и переопределение
+
+
+            ColorFont font1 = new ColorFont(Color: 0xCF, TypeFont: "MS Trebuchet", FontSize: 16);
+            Console.WriteLine(font1.FontInfo(font1));
+
+            GradientColorFont font2 = new GradientColorFont(Color: 0xFF, TypeFont: "Times New Roman", FontSize: 10, TypeGradient: 'R');
+            Console.WriteLine(font2.FontInfo(font2));
+
+            font2.color = 0x2F;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Видоизмененный цвет font2");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(font2.FontInfo(font2));
+
+            FontStyle font3 = new FontStyle(style: "oblique", TypeFont: "Calibri", FontSize: 16);
+            Console.WriteLine(font3.FontInfo(font3));
+
+
+
+
+            //интерфейсные ссылки
+
+
+
+
+
+            UI ui1 = new UI(Name: "Alexandr", Family: "Erohin", Age: 26);
+
+            // Создадим ссылку на интерфейс
+            IInfo obje;
+            //Используем ссылку на объект ui1
+            obje = ui1;
+            obje.uiName();
+            obje.uiFamily();
+            obje.uiAge();
+            // Вызов собственного метода не разрешается:
+            // obje.allInfo();
+
+
+            //as
+
+
+            object[] objArray = new object[6];
+            objArray[0] = new ClassA();
+            objArray[1] = new ClassB();
+            objArray[2] = "hello";
+            objArray[3] = 123;
+            objArray[4] = 123.4;
+            objArray[5] = null;
+
+            for (int i = 0; i < objArray.Length; ++i)
+            {
+                string s = objArray[i] as string;
+                Console.Write("{0}:", i);
+                if (s != null)
+                {
+                    Console.WriteLine("'" + s + "'");
+                }
+                else
+                {
+                    Console.WriteLine("not a string");
+                }
+            }
+
+
+			//is
+
+			Class1 c1 = new Class1();
+			Class2 c2 = new Class2();
+			Class3 c3 = new Class3();
+			Test(c1);
+			Test(c2);
+			Test(c3);
+			Test("a string");
+
+
+
+            Console.ReadLine();
+        }
+    }
+
+
+
+    //интерфейсы и абстрактный класс
+    //Теперь метод Move() определяется в интерфейсе IMovable, а конкретные классы его реализуют.
+
+    //Говоря об использовании абстрактных классов и интерфейсов можно привести еще 
+    //такую аналогию, как состояние и действие.Как правило, абстрактные классы
+    //фокусируются на общем состоянии классов-наследников.В то время 
+    //как интерфейсы строятся вокруг какого-либо общего действия.
+
+
+    //Один из принципов проектирования гласит, что при создании системы классов
+    //надо программировать на уровне интерфейсов, а не их конкретных реализаций. 
+    //Под интерфейсами в данном случае понимаются не только типы C#, определенные 
+    //с помощью ключевого слова interface, а определение функционала без его 
+    //конкретной реализации. То есть под данное определение попадают как собственно интерфейсы,
+    //так и абстрактные классы, которые могут иметь абстрактные методы без конкретной реализации.
+
+    //В этом плане у абстрактных классов и интерфейсов много общего.
+    //Нередко при проектировании программ в паттернах мы можем заменять абстрактные классы 
+    //на интерфейсы и наоборот. Однако все же они имеют некоторые отличия.
+
+    //Абстрактный класс Vehicle определяет абстрактный метод перемещения Move(), а классы-наследники его реализуют.
+
+    //Но, предположим, что наша система транспорта не ограничивается вышеперечисленными 
+    //транспортными средствами.Например, мы можем добавить самолеты, лодки. Возможно, 
+    //также мы добавим лошадь - животное, которое может также выполнять роль транспортного средства.
+    //Также можно добавить дирижабль.Вобщем получается довольно широкий круг объектов, которые 
+    //связаны только тем, что являются транспортным средством и должны реализовать некоторый метод Move(), 
+    //выполняющий перемещение.
+
+
+    // Так как объекты малосвязанные между собой, то для определения общего для всех них 
+    //функционала лучше определить интерфейс.Тем более некоторые из этих объектов могут
+    //существовать в рамках параллельных систем классификаций.Например, лошадь может
+    //быть классом в структуре системы классов животного мира.
+
+
+
+    public interface IMovable
+    {
+        void Move();
+    }
+
+    public abstract class Vehicle
+    { }
+
+    public class Car : Vehicle, IMovable
+    {
+        public void Move()
+        {
+            Console.WriteLine("Машина едет");
+        }
+    }
+
+    public class Bus : Vehicle, IMovable
+    {
+        public void Move()
+        {
+            Console.WriteLine("Автобус едет");
+        }
+    }
+
+    public class Hourse : IMovable
+    {
+        public void Move()
+        {
+            Console.WriteLine("Лошадь скачет");
+        }
+    }
+
+    public class Aircraft : IMovable
+    {
+        public void Move()
+        {
+            Console.WriteLine("Самолет летит");
+        }
+    }
+
+
+    // виртуальные методы и переопределение.
+
+
+    //Полиморфизм предоставляет подклассу способ определения собственной версии метода,
+    //определенного в его базовом классе, с использованием процесса, который называется 
+    //переопределением метода(method overriding). Чтобы пересмотреть текущий дизайн, нужно понять значение
+    //ключевых слов virtual и override.
+
+    //Виртуальным называется такой метод, который объявляется как virtual в базовом классе.Виртуальный 
+    //метод отличается тем, что он может быть переопределен в одном или нескольких производных классах.
+    //Следовательно, у каждого производного класса может быть свой вариант виртуального метода. Кроме того,
+    //виртуальные методы интересны тем, что именно происходит при их вызове по ссылке на базовый класс.В этом 
+    //случае средствами языка C# определяется именно тот вариант виртуального метода, который следует вызывать,
+    //исходя из типа объекта, к которому происходит обращение по ссылке, причем это делается во время выполнения.
+    //Поэтому при ссылке на разные типы объектов выполняются разные варианты виртуального метода. Иными словами,
+    //вариант выполняемого виртуального метода выбирается по типу объекта, а не по типу ссылки на этот объект.
+
+    //Так, если базовый класс содержит виртуальный метод и от него получены производные классы, 
+    //то при обращении к разным типам объектов по ссылке на базовый класс выполняются разные варианты этого виртуального метода.
+
+
+    //Метод объявляется как виртуальный в базовом классе с помощью ключевого слова virtual, 
+    //указываемого перед его именем. Когда же виртуальный метод переопределяется в производном классе, 
+    //то для этого используется модификатор override. А сам процесс повторного определения виртуального метода 
+    //в производном классе называется переопределением метода.При переопределении метода - имя, возвращаемый тип 
+    //и сигнатура переопределяющего метода должны быть точно такими же, как и у того виртуального метода, который
+    //переопределяется. Кроме того, виртуальный метод не может быть объявлен как static или abstract.
+
+    //Переопределение метода служит основанием для воплощения одного из самых эффективных в C# принципов: 
+    //динамической диспетчеризации методов, которая представляет собой механизм разрешения вызова во
+    //время выполнения, а не компиляции. Значение динамической диспетчеризации методов состоит в том, 
+    //что именно благодаря ей в C# реализуется динамический полиморфизм.
+
+    //Если при наличии многоуровневой иерархии виртуальный метод не переопределяется в производном 
+    //классе, то выполняется ближайший его вариант, обнаруживаемый вверх по иерархии.
+
+    //И еще одно замечание: свойства также подлежат модификации ключевым словом virtual и 
+    //переопределению ключевым словом override. Это же относится и к индексаторам.
+
+
+
+
+
+
+    // Базовый класс
+    class Font
+    {
+        string TypeFont;
+        short FontSize;
+
+        public Font()
+        {
+            TypeFont = "Arial";
+            FontSize = 12;
+        }
+
+        public Font(string TypeFont, short FontSize)
+        {
+            this.TypeFont = TypeFont;
+            this.FontSize = FontSize;
+        }
+
+        public string typeFont
+        {
+            get
+            {
+                return TypeFont;
+            }
+
+            set
+            {
+                TypeFont = value;
+            }
+        }
+
+        public short fontSize
+        {
+            get
+            {
+                return FontSize;
+            }
+
+            set
+            {
+                FontSize = value;
+            }
+        }
+
+        // Создаем виртуальный метод
+        public virtual string FontInfo(Font obj)
+        {
+            string s = "Информация о шрифте: \n------------------\n\n" +
+                "Тип шрифта: " + typeFont +
+                "\nРазмер шрифта: " + fontSize + "\n";
+            return s;
+        }
+    }
+
+    // Производный класс 1 уровня
+    class ColorFont : Font
+    {
+        byte Color;
+
+        public ColorFont(byte Color, string TypeFont, short FontSize)
+            : base(TypeFont, FontSize)
+        {
+            this.Color = Color;
+        }
+
+        // Переопределение для виртуального метода
+        public override string FontInfo(Font obj)
+        {
+            // Используется ссылка на метод, определенный в базовом классе Font
+            return base.FontInfo(obj) + "Цвет шрифта: " + Color + "\n";
+        }
+
+        // Создадим виртуальное свойство
+        public virtual byte color
+        {
+            set
+            {
+                Color = value;
+            }
+
+            get
+            {
+                return Color;
+            }
+        }
+    }
+
+    // Производный класс 2 уровня
+    class GradientColorFont : ColorFont
+    {
+        char TypeGradient;
+
+        public GradientColorFont(char TypeGradient, byte Color, string TypeFont, short FontSize) :
+            base(Color, TypeFont, FontSize)
+        {
+            this.TypeGradient = TypeGradient;
+        }
+
+        // Опять переопределяем виртуальный метод
+        public override string FontInfo(Font obj)
+        {
+            // Используется ссылка на метод определенный в производном классе FontColor
+            return base.FontInfo(obj) + "Тип градиента: " + TypeGradient + "\n\n";
+        }
+
+        // Переопределим виртуальное свойство
+        public override byte color
+        {
+            get
+            {
+                return base.color;
+            }
+            set
+            {
+                if (value < 10)
+                    base.color = 0;
+                else
+                    base.color = (byte)(value - 0x0A);
+            }
+        }
+    }
+
+    // Еще один производный класс 1 уровня
+    class FontStyle : Font
+    {
+        string style;
+
+        public FontStyle(string style, string TypeFont, short FontSize) : base(TypeFont, FontSize)
+        {
+            this.style = style;
+        }
+
+        // Данный класс не переопределяет виртуальный метод
+        // поэтому при вызове метода FontInfo ()
+        // вызывается метод созданный в базовом классе
+    }
+
+
+
+    //герметизированный класс
+
+    //При применении к классу модификатор sealed запрещает другим классам наследовать 
+    //от этого класса. В следующем примере класс B наследует от класса A, но 
+    //никакие классы не могут наследовать от класса B.
+
+    //class A { }
+    //sealed class B : A { }
+
+    //Модификатор sealed можно использовать для метода или свойства, которое переопределяет
+    //виртуальный метод или свойство в базовом классе.Это позволяет классам наследовать от вашего 
+    //класса, запрещая им при этом переопределять определенные виртуальные методы или свойства.
+
+
+    class X
+    {
+        protected virtual void F() { Console.WriteLine("X.F"); }
+        protected virtual void F2() { Console.WriteLine("X.F2"); }
+    }
+    class Y : X
+    {
+        sealed protected override void F() { Console.WriteLine("Y.F"); }
+        protected override void F2() { Console.WriteLine("Y.F2"); }
+    }
+    class Z : Y
+    {
+        // Attempting to override F causes compiler error CS0239.
+        // protected override void F() { Console.WriteLine("C.F"); }
+
+        // Overriding F2 is allowed.
+        protected override void F2() { Console.WriteLine("Z.F2"); }
+    }
+
+    //интерфейсные ссылки
+    //Как это ни покажется странным, но в C# допускается объявлять переменные ссылочного интерфейсного типа, 
+    //т.е. переменные ссылки на интерфейс. Такая переменная может ссылаться на любой объект, реализующий ее
+    //интерфейс. При вызове метода для объекта посредством интерфейсной ссылки выполняется его вариант,
+    //реализованный в классе данного объекта. Этот процесс аналогичен применению ссылки на базовый класс
+    //для доступа к объекту производного класса.
+
+    //Переменной ссылки на интерфейс доступны только методы, объявленные в ее интерфейсе.Поэтому 
+    //интерфейсную ссылку нельзя использовать для доступа к любым другим переменным и методам,
+    //которые не поддерживаются объектом класса, реализующего данный интерфейс.
+
+
+    public interface IInfo
+    {
+        void uiName();
+        void uiFamily();
+        void uiAge();
+    }
+
+    class UI : IInfo
+    {
+        string Name, Family;
+        int Age;
+
+        public UI(string Name, string Family, int Age)
+        {
+            this.Name = Name;
+            this.Family = Family;
+            this.Age = Age;
+        }
+
+        // Реализуем интерфейс
+        public void uiName()
+        {
+            Console.WriteLine("Имя пользователя: " + Name);
+        }
+
+        public void uiFamily()
+        {
+            Console.WriteLine("Фамилия: " + Family);
+        }
+
+        public void uiAge()
+        {
+            Console.WriteLine("Возраст: " + Age);
+        }
+
+        // Собственный метод класса UI
+        public void allInfo()
+        {
+            Console.WriteLine(Name + " " + Family + " " + Age);
+        }
+    }
+
+    //переопределение метода tostring
+
+    //каждый класс или структура в c# неявно наследует класс object.Поэтому каждый обьект в языке получает метод
+    //toString, который возвращает строковое предсатвление данного обьекта
+
+    class Chelovek
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("[Chelovek: Name={0}, Age={1}]", Name, Age);
+        }
+    }
+
+		//as
+
+		//Оператор as можно использовать для выполнения определенных типов 
+		//преобразований между совместимыми ссылочными типами или типами, допускающими значение NULL. 
+
+
+		//Оператор as аналогичен операции приведения. Однако, если преобразование невозможно, 
+        //as возвращает null, а не вызывает исключение. Рассмотрим следующий пример.
+
+    //expression as type
+    //Этот код является эквивалентом следующего выражения, за исключением того,
+        //что переменная expression вычисляется только один раз.
+
+    //expression is type? (type) expression : (type)null  
+    //Обратите внимание, что оператор as выполняет только преобразования 
+        //ссылок, преобразования типов, допускающих значение NULL, и 
+        //преобразования-упаковки.Оператор as не может выполнять другие преобразования, 
+        //например пользовательские преобразования, которые следует выполнять с помощью выражения приведения.
+
+		class ClassA { }
+    class ClassB { }
+
+
+
+
+
+
+
+
+    }
+}
+
+
